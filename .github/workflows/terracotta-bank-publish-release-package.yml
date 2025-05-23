@@ -29,6 +29,17 @@ jobs:
       - name: Build WAR with Gradle
         run: ./gradlew clean build -x test
 
+      - name: Contrast SCA Action
+        uses: Contrast-Security-OSS/contrast-sca-action@v1
+        with:
+          apiKey: ${{ secrets.CONTRAST_API_KEY }}
+          orgId: ${{ secrets.CONTRAST_ORGANIZATION_ID }}
+          authHeader: ${{ secrets.CONTRAST_AUTH_HEADER }}
+          apiUrl: ${{ secrets.CONTRAST_API_URL }}
+          filePath: build.gradle
+          severity: high
+          fail: true
+
       - name: Copy WAR
         run: |
           TERRACOTTA_BANK_VERSION=0.0.1-SNAPSHOT
